@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Volunteer System</title>
+  <style>
+    /* ========= Clean + Ordered UI ========= */
+    :root{
+      --bg:#f4f6fb;
+      --card:#ffffff;
+      --text:#0f172a;
+      --muted:#64748b;
+      --line:#e5e7eb;
+
+      --primary:#2563eb;
+      --primary2:#1d4ed8;
+      --green:#10b981;
+      --dark:#0f172a;
+      --red:#ef4444;
+      --amber:#f59e0b;
+
+      --shadow:0 10px 30px rgba(2,6,23,.08);
+      --shadow2:0 2px 10px rgba(2,6,23,.06);
+      --radius:14px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      direction: rtl;
+    }
+
+    /* ========= Header ========= */
+    header{
+      background: linear-gradient(135deg, #0b1220, #111b33);
+      color:#fff;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+    header .wrapHeader{
+      max-width:1100px;
+      margin:0 auto;
+      padding:18px 16px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      min-width:240px;
+    }
+    .logo{
+      width:42px;height:42px;border-radius:12px;
+      background: linear-gradient(135deg, var(--primary), var(--green));
+      box-shadow: 0 10px 24px rgba(0,0,0,.25);
+    }
+    header h1{margin:0;font-size:18px;letter-spacing:.2px}
+    .sub{margin-top:3px;font-size:12.5px;color:rgba(255,255,255,.75)}
+    .topHint{
+      display:flex; gap:8px; flex-wrap:wrap; justify-content:flex-end;
+    }
+    .pill{
+      padding:7px 10px;
+      border-radius:999px;
+      font-size:12.5px;
+      color:rgba(255,255,255,.85);
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(2,6,23,.25);
+      white-space:nowrap;
+    }
+
+    /* ========= Layout ========= */
+    .wrap{
+      max-width:1100px;
+      margin:18px auto;
+      padding:0 14px 28px;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:14px;
+      align-items:start;
+    }
+
+    /* ========= Card ========= */
+    .card{
+      background: var(--card);
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      padding:14px;
+      box-shadow: var(--shadow2);
+    }
+
+    .cardTitle{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      margin-bottom:10px;
+      padding-bottom:10px;
+      border-bottom:1px solid var(--line);
+    }
+
+    h2{
+      margin:0;
+      font-size:15.5px;
+    }
+
+    .chipRow{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+    .chip{
+      font-size:12px;
+      font-weight:700;
+      padding:6px 10px;
+      border-radius:999px;
+      background:#eef2ff;
+      color:#3730a3;
+      border:1px solid rgba(99,102,241,.16);
+    }
+
+    /* ========= Form ========= */
+    label{
+      display:block;
+      margin:10px 0 6px;
+      font-size:12.5px;
+      color:#334155;
+      font-weight:700;
+    }
+
+    input,select,textarea{
+      width:100%;
+      padding:10px 11px;
+      border-radius:12px;
+      border:1px solid var(--line);
+      background:#fff;
+      outline:none;
+      transition: box-shadow .15s ease, border-color .15s ease;
+      font-size:14px;
+    }
+    textarea{min-height:90px;resize:vertical}
+    input:focus,select:focus,textarea:focus{
+      border-color: rgba(37,99,235,.55);
+      box-shadow: 0 0 0 4px rgba(37,99,235,.12);
+    }
+
+    .row{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      align-items:center;
+      margin-top:10px;
+    }
+
+    /* ========= Buttons ========= */
+    button{
+      padding:10px 12px;
+      border:none;
+      border-radius:12px;
+      cursor:pointer;
+      font-weight:800;
+      transition: transform .08s ease, opacity .15s ease, box-shadow .15s ease;
+      box-shadow: 0 8px 16px rgba(2,6,23,.10);
+    }
+    button:hover{opacity:.95}
+    button:active{transform:translateY(1px)}
+    .btn{background: linear-gradient(135deg, var(--primary), var(--primary2)); color:#fff}
+    .btn2{background: linear-gradient(135deg, var(--green), #059669); color:#fff}
+    .btn3{background: linear-gradient(135deg, #0f172a, #111827); color:#fff}
+    .btnDanger{background: linear-gradient(135deg, var(--red), #b91c1c); color:#fff}
+    .btnWarn{background: linear-gradient(135deg, var(--amber), #fbbf24); color:#111827}
+    .ghost{
+      background:#fff;
+      color:#0f172a;
+      border:1px solid var(--line);
+      box-shadow:none;
+    }
+
+    /* ========= Messages ========= */
+    .muted{color:var(--muted);font-size:13px}
+    .ok{color:#065f46}
+    .err{color:#991b1b}
+
+    /* ========= Lists ========= */
+    .list{display:flex;flex-direction:column;gap:10px;margin-top:8px}
+    .item{
+      border:1px solid var(--line);
+      border-radius: 14px;
+      padding:12px;
+      background:#fff;
+      box-shadow: var(--shadow2);
+    }
+    .itemHead{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .idBadge{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size:12px;
+      color:#334155;
+      background:#f8fafc;
+      border:1px solid rgba(148,163,184,.35);
+      padding:5px 8px;
+      border-radius:999px;
+    }
+
+    .tag{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:4px 9px;
+      border-radius:999px;
+      font-size:12px;
+      margin-left:6px;
+      font-weight:800;
+      border:1px solid rgba(229,231,235,.95);
+      background:#f3f4f6;
+    }
+    .tag.wait{background:#fef3c7;border-color: rgba(245,158,11,.25)}
+    .tag.work{background:#dbeafe;border-color: rgba(37,99,235,.22)}
+    .tag.done{background:#dcfce7;border-color: rgba(16,185,129,.22)}
+
+    /* ========= Wide card ========= */
+    .wide{grid-column: 1 / -1}
+
+    /* ========= Responsive ========= */
+    @media (max-width: 900px){
+      .grid{grid-template-columns:1fr}
+      header .wrapHeader{flex-direction:column;align-items:flex-start}
+      .topHint{justify-content:flex-start}
+      .wide{grid-column:auto}
+    }
+  </style>
+</head>
+<body>
+<header>
+  <div class="wrapHeader">
+    <div class="brand">
+      <div class="logo" aria-hidden="true"></div>
+      <div>
+        <h1>Volunteer System</h1>
+        <div class="sub">ניהול בקשות ומתנדבים + סינונים</div>
+      </div>
+    </div>
+    <div class="topHint">
+      <div class="pill">מסודר • נקי • ברור</div>
+      <div class="pill">Requests • Volunteers • Admin</div>
+    </div>
+  </div>
+</header>
+
+<div class="wrap grid">
+
+  <!-- Filters -->
+  <div class="card">
+    <div class="cardTitle">
+      <h2>סינון בקשות</h2>
+      <div class="chipRow">
+        <span class="chip">GET /api/requests</span>
+        <button class="btn3" onclick="loadRequests()">רענון</button>
+      </div>
+    </div>
+
+    <label>סטטוס</label>
+    <select id="fStatus">
+      <option value="">הכל</option>
+      <option value="ממתין">ממתין</option>
+      <option value="בטיפול">בטיפול</option>
+      <option value="טופל">טופל</option>
+    </select>
+
+    <label>עדיפות</label>
+    <select id="fPriority">
+      <option value="">הכל</option>
+      <option value="גבוהה">גבוהה</option>
+      <option value="בינונית">בינונית</option>
+      <option value="נמוכה">נמוכה</option>
+    </select>
+
+    <label>מיקום (מכיל)</label>
+    <input id="fLocation" placeholder="למשל: ירושלים" />
+
+    <div class="row">
+      <button class="btn" onclick="loadRequests()">סנן</button>
+      <button class="ghost" onclick="clearFilters()">איפוס</button>
+    </div>
+  </div>
+
+  <!-- Create Request -->
+  <div class="card">
+    <div class="cardTitle">
+      <h2>יצירת בקשה</h2>
+      <div class="chipRow">
+        <span class="chip">POST /api/requests</span>
+      </div>
+    </div>
+
+    <label>מיקום</label>
+    <input id="cLocation" placeholder="כביש 1 / ירושלים" />
+
+    <label>תיאור</label>
+    <textarea id="cDesc" placeholder="מה קרה?"></textarea>
+
+    <label>טלפון</label>
+    <input id="cPhone" placeholder="050..." />
+
+    <label>כמות אנשים</label>
+    <input id="cPeople" type="number" min="1" value="1" />
+
+    <label>עדיפות</label>
+    <select id="cPriority">
+      <option value="גבוהה">גבוהה</option>
+      <option value="בינונית">בינונית</option>
+      <option value="נמוכה">נמוכה</option>
+    </select>
+
+    <div class="row">
+      <button class="btn2" onclick="createRequest()">צור בקשה</button>
+    </div>
+
+    <div class="muted" id="createMsg" style="margin-top:10px"></div>
+  </div>
+
+  <!-- Volunteers -->
+  <div class="card">
+    <div class="cardTitle">
+      <h2>מתנדבים</h2>
+      <div class="chipRow">
+        <span class="chip">POST /api/volunteers</span>
+        <span class="chip">GET /api/volunteers</span>
+        <button class="btn3" onclick="loadVolunteers()">רענון</button>
+      </div>
+      
+    </div>
+
+    <label>שם פרטי</label>
+    <input id="vFirst" placeholder="ישראל" />
+
+    <label>שם משפחה</label>
+    <input id="vLast" placeholder="כהן" />
+
+    <label>טלפון</label>
+    <input id="vPhone" placeholder="050..." />
+
+    <label>התמחויות (מופרד בפסיקים)</label>
+    <input id="vSkills" placeholder="גרירה, חילוץ, מנעולן" />
+
+    <div class="row">
+      <button class="btn2" onclick="createVolunteer()">הוסף מתנדב</button>
+    </div>
+
+    <div class="muted" id="volMsg" style="margin-top:10px"></div>
+
+    <div style="margin-top:12px">
+      <div class="muted" style="font-weight:800">רשימת מתנדבים:</div>
+      <div class="list" id="volList"></div>
+    </div>
+  </div>
+
+  <!-- Admin -->
+  <div class="card">
+    <div class="cardTitle">
+      <h2>מנהל / “אני מתנדב”</h2>
+      <div class="chipRow">
+        <span class="chip">Assign • Status • Patch</span>
+      </div>
+    </div>
+
+    <div class="muted" style="margin-bottom:10px">
+      כאן את יכולה לבצע: שיוך מתנדב לבקשה, שינוי סטטוס, עדכון חלקי, מחיקה, ביטול שיוך.
+    </div>
+
+    <label>Request ID</label>
+    <input id="aReqId" placeholder="הדביקי _id של בקשה" />
+
+    <label>בחירת מתנדב (Volunteer ID)</label>
+    <select id="aVolId"></select>
+    <div class="row" style="margin-top:8px">
+      <button class="btn3" onclick="loadVolunteers()">טען מתנדבים לרשימה</button>
+    </div>
+
+    <div class="row">
+      <button class="btn" onclick="assignVolunteer()">אני מתנדב (Assign)</button>
+      <button class="btnWarn" onclick="unassignVolunteer()">ביטול שיוך</button>
+    </div>
+
+    <label style="margin-top:14px">שינוי סטטוס</label>
+    <select id="aStatus">
+      <option value="ממתין">ממתין</option>
+      <option value="בטיפול">בטיפול</option>
+      <option value="טופל">טופל</option>
+    </select>
+    <div class="row">
+      <button class="btn" onclick="updateStatus()">עדכן סטטוס</button>
+    </div>
+
+    <label style="margin-top:14px">עדכון חלקי (PATCH)</label>
+    <div class="muted">מלאי רק מה שרוצים לשנות:</div>
+    <input id="pLocation" placeholder="מיקום (אופציונלי)" style="margin-top:8px" />
+    <input id="pPhone" placeholder="טלפון (אופציונלי)" style="margin-top:8px" />
+    <input id="pPeople" type="number" min="1" placeholder="אנשים (אופציונלי)" style="margin-top:8px" />
+    <select id="pPriority" style="margin-top:8px">
+      <option value="">עדיפות (לא לשנות)</option>
+      <option value="גבוהה">גבוהה</option>
+      <option value="בינונית">בינונית</option>
+      <option value="נמוכה">נמוכה</option>
+    </select>
+    <textarea id="pDesc" placeholder="תיאור (אופציונלי)" style="margin-top:8px"></textarea>
+
+    <div class="row">
+      <button class="btn" onclick="patchRequest()">PATCH בקשה</button>
+      <button class="btnDanger" onclick="deleteRequest()">מחק בקשה</button>
+    </div>
+
+    <div class="muted" id="adminMsg" style="margin-top:10px"></div>
+  </div>
+
+  <!-- Requests list -->
+  <div class="card wide">
+    <div class="cardTitle">
+      <h2>רשימת בקשות</h2>
+      <div class="chipRow">
+        <span class="chip">תוצאות מסוננות</span>
+      </div>
+    </div>
+    <div class="list" id="list"></div>
+  </div>
+
+</div>
+
+<script>
+  async function loadRequests() {
+    const status = document.getElementById('fStatus').value;
+    const priority = document.getElementById('fPriority').value;
+    const location = document.getElementById('fLocation').value.trim();
+
+    const params = new URLSearchParams();
+    if (status) params.set('status', status);
+    if (priority) params.set('priority', priority);
+    if (location) params.set('location', location);
+
+    const res = await fetch('/api/requests?' + params.toString());
+    const data = await res.json();
+
+    const list = document.getElementById('list');
+    list.innerHTML = '';
+
+    if (!Array.isArray(data) || data.length === 0) {
+      list.innerHTML = '<div class="muted">אין תוצאות</div>';
+      return;
+    }
+
+    data.forEach(r => {
+      const tagClass = r.status === 'ממתין' ? 'wait' : (r.status === 'בטיפול' ? 'work' : 'done');
+      const el = document.createElement('div');
+      el.className = 'item';
+      el.innerHTML = `
+        <div class="itemHead">
+          <div>
+            <b>${escapeHtml(r.location || '')}</b>
+            <span class="tag ${tagClass}">${escapeHtml(r.status || '')}</span>
+            <span class="tag">${escapeHtml(r.priority || '')}</span>
+          </div>
+          <div class="idBadge">id: ${escapeHtml(r._id || '')}</div>
+        </div>
+        <div style="margin-top:8px">${escapeHtml(r.description || '')}</div>
+        <div class="muted" style="margin-top:6px">טלפון: ${escapeHtml(r.phone || '')} | אנשים: ${escapeHtml(String(r.peopleCount ?? ''))}</div>
+        <div class="muted" style="margin-top:6px">volunteer: ${escapeHtml(String(r.volunteer ?? 'null'))}</div>
+      `;
+      list.appendChild(el);
+    });
+  }
+
+  async function createRequest() {
+    const body = {
+      location: document.getElementById('cLocation').value.trim(),
+      description: document.getElementById('cDesc').value.trim(),
+      phone: document.getElementById('cPhone').value.trim(),
+      peopleCount: Number(document.getElementById('cPeople').value),
+      priority: document.getElementById('cPriority').value
+    };
+
+    const msg = document.getElementById('createMsg');
+    msg.textContent = '';
+
+    const res = await fetch('/api/requests', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+
+    const data = await res.json();
+    if (!res.ok) {
+      msg.textContent = 'שגיאה: ' + (data.message || JSON.stringify(data));
+      msg.className = 'muted err';
+      return;
+    }
+
+    msg.textContent = 'נוצר בהצלחה. id: ' + data._id;
+    msg.className = 'muted ok';
+
+    document.getElementById('aReqId').value = data._id;
+
+    await loadRequests();
+  }
+
+  function clearFilters() {
+    document.getElementById('fStatus').value = '';
+    document.getElementById('fPriority').value = '';
+    document.getElementById('fLocation').value = '';
+    loadRequests();
+  }
+
+  // -------- Volunteers --------
+  async function loadVolunteers() {
+    const res = await fetch('/api/volunteers');
+    const data = await res.json();
+
+    const list = document.getElementById('volList');
+    list.innerHTML = '';
+
+    const select = document.getElementById('aVolId');
+    select.innerHTML = '';
+
+    if (!Array.isArray(data) || data.length === 0) {
+      list.innerHTML = '<div class="muted">אין מתנדבים עדיין</div>';
+      select.innerHTML = '<option value="">אין מתנדבים</option>';
+      return;
+    }
+
+    data.forEach(v => {
+      const el = document.createElement('div');
+      el.className = 'item';
+      el.innerHTML = `
+        <div><b>${escapeHtml((v.firstName||'') + ' ' + (v.lastName||''))}</b></div>
+        <div class="muted">טלפון: ${escapeHtml(v.phone || '')}</div>
+        <div class="muted">skills: ${escapeHtml(JSON.stringify(v.skills || []))}</div>
+        <div class="muted">id: ${escapeHtml(v._id || '')}</div>
+      `;
+      list.appendChild(el);
+
+      const opt = document.createElement('option');
+      opt.value = v._id;
+      opt.textContent = `${v.firstName} ${v.lastName} (id: ${v._id})`;
+      select.appendChild(opt);
+    });
+  }
+
+  async function createVolunteer() {
+    const skillsRaw = document.getElementById('vSkills').value.trim();
+    const skills = skillsRaw ? skillsRaw.split(',').map(s => s.trim()).filter(Boolean) : [];
+
+    const body = {
+      firstName: document.getElementById('vFirst').value.trim(),
+      lastName: document.getElementById('vLast').value.trim(),
+      phone: document.getElementById('vPhone').value.trim(),
+      skills
+    };
+
+    const msg = document.getElementById('volMsg');
+    msg.textContent = '';
+
+    const res = await fetch('/api/volunteers', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+
+    const data = await res.json();
+    if (!res.ok) {
+      msg.textContent = 'שגיאה: ' + (data.message || JSON.stringify(data));
+      msg.className = 'muted err';
+      return;
+    }
+
+    msg.textContent = 'מתנדב נוסף. id: ' + data._id;
+    msg.className = 'muted ok';
+
+    await loadVolunteers();
+  }
+
+  // -------- Admin / Volunteer flow --------
+  function adminSet(msg, ok) {
+    const el = document.getElementById('adminMsg');
+    el.textContent = msg;
+    el.className = 'muted ' + (ok ? 'ok' : 'err');
+  }
+
+  async function assignVolunteer() {
+    const requestId = document.getElementById('aReqId').value.trim();
+    const volunteerId = document.getElementById('aVolId').value;
+
+    if (!requestId) return adminSet('חסר Request ID', false);
+    if (!volunteerId) return adminSet('חסר Volunteer ID (בחרי מתנדב)', false);
+
+    const res = await fetch(`/api/requests/${encodeURIComponent(requestId)}/volunteer`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ volunteerId })
+    });
+
+    const data = await res.json();
+    if (!res.ok) return adminSet('שגיאה: ' + (data.message || JSON.stringify(data)), false);
+
+    adminSet('עודכן! הבקשה שויכה למתנדב והסטטוס עודכן.', true);
+    await loadRequests();
+  }
+
+  async function unassignVolunteer() {
+    const requestId = document.getElementById('aReqId').value.trim();
+    if (!requestId) return adminSet('חסר Request ID', false);
+
+    const res = await fetch(`/api/requests/${encodeURIComponent(requestId)}/unassign`, {
+      method: 'PATCH'
+    });
+
+    const data = await res.json();
+    if (!res.ok) return adminSet('שגיאה: ' + (data.message || JSON.stringify(data)), false);
+
+    adminSet('בוטל שיוך מתנדב והבקשה חזרה לממתין.', true);
+    await loadRequests();
+  }
+
+  async function updateStatus() {
+    const requestId = document.getElementById('aReqId').value.trim();
+    const status = document.getElementById('aStatus').value;
+
+    if (!requestId) return adminSet('חסר Request ID', false);
+
+    const res = await fetch(`/api/requests/${encodeURIComponent(requestId)}/status`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ status })
+    });
+
+    const data = await res.json();
+    if (!res.ok) return adminSet('שגיאה: ' + (data.message || JSON.stringify(data)), false);
+
+    adminSet('סטטוס עודכן בהצלחה.', true);
+    await loadRequests();
+  }
+
+  async function patchRequest() {
+    const requestId = document.getElementById('aReqId').value.trim();
+    if (!requestId) return adminSet('חסר Request ID', false);
+
+    const body = {};
+    const loc = document.getElementById('pLocation').value.trim();
+    const phone = document.getElementById('pPhone').value.trim();
+    const people = document.getElementById('pPeople').value;
+    const pr = document.getElementById('pPriority').value;
+    const desc = document.getElementById('pDesc').value.trim();
+
+    if (loc) body.location = loc;
+    if (phone) body.phone = phone;
+    if (people) body.peopleCount = Number(people);
+    if (pr) body.priority = pr;
+    if (desc) body.description = desc;
+
+    if (Object.keys(body).length === 0) return adminSet('לא מילאת שום שדה לעדכון', false);
+
+    const res = await fetch(`/api/requests/${encodeURIComponent(requestId)}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+
+    const data = await res.json();
+    if (!res.ok) return adminSet('שגיאה: ' + (data.message || JSON.stringify(data)), false);
+
+    adminSet('עודכן בהצלחה (PATCH).', true);
+    await loadRequests();
+  }
+
+  async function deleteRequest() {
+    const requestId = document.getElementById('aReqId').value.trim();
+    if (!requestId) return adminSet('חסר Request ID', false);
+
+    if (!confirm('בטוחה למחוק את הבקשה?')) return;
+
+    const res = await fetch(`/api/requests/${encodeURIComponent(requestId)}`, {
+      method: 'DELETE'
+    });
+
+    const data = await res.json();
+    if (!res.ok) return adminSet('שגיאה: ' + (data.message || JSON.stringify(data)), false);
+
+    adminSet('נמחק בהצלחה.', true);
+    await loadRequests();
+  }
+
+  function escapeHtml(str){
+    return String(str).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
+  }
+
+  // load initial
+  loadRequests();
+  loadVolunteers();
+</script>
+</body>
+</html>

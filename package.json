@@ -1,0 +1,21 @@
+{
+  "name": "volunteer-system",
+  "version": "1.0.0",
+  "description": "Volunteer System - Help Request Management",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "seed": "node seedData.js",
+    "dev": "nodemon index.js"
+  },
+  "keywords": ["volunteer", "help", "nodejs", "express", "mongodb"],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "mongoose": "^9.1.5",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1"
+  }
+}

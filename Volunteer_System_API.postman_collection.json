@@ -1,0 +1,336 @@
+{
+  "info": {
+    "name": "Volunteer System API",
+    "_postman_id": "volunteer-system-2025",
+    "description": "API for managing help requests and volunteers",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Volunteers",
+      "item": [
+        {
+          "name": "Create Volunteer",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"יוסי\",\n  \"lastName\": \"לוי\",\n  \"phone\": \"050-1234567\",\n  \"skills\": [\"גרירה\", \"חילוץ\", \"מכניקה\"]\n}"
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/volunteers",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "volunteers"]
+            },
+            "description": "Create a new volunteer"
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Volunteers",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/volunteers",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "volunteers"]
+            },
+            "description": "Get list of all volunteers"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Requests",
+      "item": [
+        {
+          "name": "Create Request",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"location\": \"תל אביב - רחוב דיזנגוף 100\",\n  \"description\": \"רכב תקוע, דרושה גרירה\",\n  \"phone\": \"050-9999999\",\n  \"peopleCount\": 2,\n  \"priority\": \"גבוהה\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/requests",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "requests"]
+            },
+            "description": "Create a new help request"
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Requests",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/requests",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "requests"]
+            },
+            "description": "Get all requests without filters"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Requests - Filter by Status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/requests?status=ממתין",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "requests"],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "ממתין",
+                  "description": "ממתין / בטיפול / טופל"
+                }
+              ]
+            },
+            "description": "Get requests filtered by status"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Requests - Filter by Priority",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/requests?priority=גבוהה",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "requests"],
+              "query": [
+                {
+                  "key": "priority",
+                  "value": "גבוהה",
+                  "description": "נמוכה / בינונית / גבוהה / קריטית"
+                }
+              ]
+            },
+            "description": "Get requests filtered by priority"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Requests - Filter by Location",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/requests?location=תל אביב",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "requests"],
+              "query": [
+                {
+                  "key": "location",
+                  "value": "תל אביב",
+                  "description": "Partial search in location"
+                }
+              ]
+            },
+            "description": "Get requests filtered by location (partial match)"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Requests - Multiple Filters",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/requests?status=ממתין&priority=קריטית&location=ירושלים",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "requests"],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "ממתין"
+                },
+                {
+                  "key": "priority",
+                  "value": "קריטית"
+                },
+                {
+                  "key": "location",
+                  "value": "ירושלים"
+                }
+              ]
+            },
+            "description": "Get requests with multiple filters combined"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Request by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/requests/{{requestId}}",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "requests", "{{requestId}}"]
+            },
+            "description": "Get specific request by ID (replace {{requestId}} with actual ID)"
+          },
+          "response": []
+        },
+        {
+          "name": "Assign Volunteer to Request",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"volunteerId\": \"{{volunteerId}}\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/requests/{{requestId}}/volunteer",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "requests", "{{requestId}}", "volunteer"]
+            },
+            "description": "Assign a volunteer to a request (status changes to 'בטיפול')"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Request Status",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"טופל\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/requests/{{requestId}}/status",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "requests", "{{requestId}}", "status"]
+            },
+            "description": "Update request status (ממתין / בטיפול / טופל)"
+          },
+          "response": []
+        },
+        {
+          "name": "Partial Update Request (PATCH)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"location\": \"חיפה - רחוב הרצל 50\",\n  \"phone\": \"054-1111111\",\n  \"priority\": \"בינונית\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/requests/{{requestId}}",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "requests", "{{requestId}}"]
+            },
+            "description": "Update only specific fields (partial update)"
+          },
+          "response": []
+        },
+        {
+          "name": "Unassign Volunteer from Request",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/requests/{{requestId}}/unassign",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "requests", "{{requestId}}", "unassign"]
+            },
+            "description": "Remove volunteer from request (status back to 'ממתין')"
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Request",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/requests/{{requestId}}",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "requests", "{{requestId}}"]
+            },
+            "description": "Delete a request by ID"
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "requestId",
+      "value": "paste_request_id_here",
+      "type": "string"
+    },
+    {
+      "key": "volunteerId",
+      "value": "paste_volunteer_id_here",
+      "type": "string"
+    }
+  ]
+}
